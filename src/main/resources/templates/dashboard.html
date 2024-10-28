@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body styling */
+        body {
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        /* Main container */
+        .dashboard {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Header styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Balance card */
+        .balance-card {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .balance-card h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .balance-card .balance-amount {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        /* Action buttons */
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .actions .action-btn {
+            flex: 1;
+            background-color: #fff;
+            color: #333;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .actions .action-btn:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        /* Transaction history */
+        .transaction-history {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .transaction-history h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .transaction-history table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+        }
+
+        .transaction-history th, .transaction-history td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .transaction-history th {
+            background-color: #f4f6f8;
+            font-weight: bold;
+        }
+
+        .transaction-history td {
+            color: #555;
+        }
+
+        .transaction-history .credit {
+            color: green;
+            font-weight: bold;
+        }
+
+        .transaction-history .debit {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <!-- Header -->
+    <div class="header">
+        <h1>Welcome, <span th:text="${user.username}"></span></h1>
+        <a href="/user/logout" style="color: #007bff; text-decoration: none;">Logout</a>
+    </div>
+
+    <!-- Balance Card -->
+    <div class="balance-card">
+        <h2>Current Balance</h2>
+        <div class="balance-amount" th:text="${user.balance} + ' USD'">10,000 USD</div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="actions">
+        <div class="action-btn">Transfer Funds</div>
+        <div class="action-btn">Deposit Money</div>
+        <div class="action-btn">Withdraw Funds</div>
+    </div>
+
+    <!-- Transaction History -->
+    <div class="transaction-history">
+        <h2>Recent Transactions</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>2023-10-25</td>
+                <td>Salary Deposit</td>
+                <td class="credit">+1,500 USD</td>
+                <td>Credit</td>
+            </tr>
+            <tr>
+                <td>2023-10-20</td>
+                <td>Grocery Shopping</td>
+                <td class="debit">-200 USD</td>
+                <td>Debit</td>
+            </tr>
+            <tr>
+                <td>2023-10-18</td>
+                <td>Electric Bill Payment</td>
+                <td class="debit">-150 USD</td>
+                <td>Debit</td>
+            </tr>
+            <!-- Additional transaction rows would go here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
