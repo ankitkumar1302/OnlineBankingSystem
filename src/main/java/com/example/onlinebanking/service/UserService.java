@@ -1,14 +1,13 @@
 package com.example.onlinebanking.service;
 
-import com.example.onlinebanking.model.AppUser;
+import com.example.onlinebanking.model.User;
 import com.example.onlinebanking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
 
     @Autowired
@@ -16,11 +15,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public AppUser saveUser(AppUser user) {
-        return userRepository.save(user);
+    public void saveUser(User user) {
+        userRepository.save(user);
     }
 
-    public Optional<AppUser> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

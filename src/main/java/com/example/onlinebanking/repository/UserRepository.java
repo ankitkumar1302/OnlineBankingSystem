@@ -1,10 +1,12 @@
 package com.example.onlinebanking.repository;
 
-import com.example.onlinebanking.model.AppUser;
+import com.example.onlinebanking.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<AppUser, Long> {
-    Optional<AppUser> findByUsername(String username);
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+
+
 }

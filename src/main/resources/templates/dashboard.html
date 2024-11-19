@@ -3,200 +3,478 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>Enhanced Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Reset */
+        /* Reset and Variables */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
         }
 
-        /* Body styling */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --radius: 1rem;
+        }
+
+        /* Base Styles */
         body {
-            background-color: #f4f6f8;
-            color: #333;
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.5;
         }
 
-        /* Main container */
-        .dashboard {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 20px;
+        .container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
         }
 
-        /* Header styling */
+        /* Enhanced Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            padding: 2rem;
+            position: fixed;
+            height: 100vh;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            text-decoration: none;
+            color: var(--gray);
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item a:hover,
+        .nav-item a.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .nav-item i {
+            font-size: 1.25rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        /* Enhanced Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
         }
 
-        .header h1 {
-            font-size: 24px;
-            color: #333;
+        .search-bar {
+            position: relative;
+            width: 300px;
         }
 
-        /* Balance card */
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--light);
+            border-radius: var(--radius);
+            background: var(--white);
+            transition: all 0.2s ease;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        /* Balance Card */
         .balance-card {
-            background-color: #007bff;
-            color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .balance-info h3 {
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .balance-amount {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Quick Actions Grid */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-action {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
             text-align: center;
-        }
-
-        .balance-card h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .balance-card .balance-amount {
-            font-size: 36px;
-            font-weight: bold;
-        }
-
-        /* Action buttons */
-        .actions {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .actions .action-btn {
-            flex: 1;
-            background-color: #fff;
-            color: #333;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow);
         }
 
-        .actions .action-btn:hover {
-            background-color: #007bff;
-            color: #fff;
+        .quick-action:hover {
+            transform: translateY(-2px);
+            background: var(--primary);
+            color: var(--white);
         }
 
-        /* Transaction history */
-        .transaction-history {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        .quick-action i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        .transaction-history h2 {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: #333;
+        /* Statistics Card */
+        .statistics-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
         }
 
-        .transaction-history table {
+        .chart-container {
+            height: 300px;
+            background: var(--light);
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        /* Transactions Table */
+        .transactions-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .transaction-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 16px;
         }
 
-        .transaction-history th, .transaction-history td {
-            padding: 12px;
+        .transaction-table th,
+        .transaction-table td {
+            padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--light);
         }
 
-        .transaction-history th {
-            background-color: #f4f6f8;
-            font-weight: bold;
+        .transaction-table th {
+            font-weight: 600;
+            color: var(--gray);
         }
 
-        .transaction-history td {
-            color: #555;
+        .credit {
+            color: var(--success);
         }
 
-        .transaction-history .credit {
-            color: green;
-            font-weight: bold;
+        .debit {
+            color: var(--danger);
         }
 
-        .transaction-history .debit {
-            color: red;
-            font-weight: bold;
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem;
+            border-radius: 50%;
+            box-shadow: var(--shadow);
+            z-index: 100;
+            cursor: pointer;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .actions {
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 50;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .balance-card {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header {
                 flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .transaction-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
             }
         }
     </style>
 </head>
 <body>
-<div class="dashboard">
-    <!-- Header -->
-    <div class="header">
-        <h1>Welcome, <span th:text="${user.username}"></span></h1>
-        <a href="/user/logout" style="color: #007bff; text-decoration: none;">Logout</a>
-    </div>
-
-    <!-- Balance Card -->
-    <div class="balance-card">
-        <h2>Current Balance</h2>
-        <div class="balance-amount" th:text="${user.balance} + ' USD'">10,000 USD</div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="actions">
-        <div class="action-btn">Transfer Funds</div>
-        <div class="action-btn">Deposit Money</div>
-        <div class="action-btn">Withdraw Funds</div>
-    </div>
-
-    <!-- Transaction History -->
-    <div class="transaction-history">
-        <h2>Recent Transactions</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Type</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>2023-10-25</td>
-                <td>Salary Deposit</td>
-                <td class="credit">+1,500 USD</td>
-                <td>Credit</td>
-            </tr>
-            <tr>
-                <td>2023-10-20</td>
-                <td>Grocery Shopping</td>
-                <td class="debit">-200 USD</td>
-                <td>Debit</td>
-            </tr>
-            <tr>
-                <td>2023-10-18</td>
-                <td>Electric Bill Payment</td>
-                <td class="debit">-150 USD</td>
-                <td>Debit</td>
-            </tr>
-            <!-- Additional transaction rows would go here -->
-            </tbody>
-        </table>
-    </div>
+<div class="menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
 </div>
+
+<div class="container">
+    <!-- Enhanced Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="#" class="logo">
+                <i class="fas fa-wallet"></i>
+                Online Banking
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="active">
+                        <i class="fas fa-home"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">
+                        <i class="fas fa-chart-line"></i>
+                        Statistics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">
+                        <i class="fas fa-wallet"></i>
+                        Wallet
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">
+                        <i class="fas fa-exchange-alt"></i>
+                        Transactions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">
+                        <i class="fas fa-envelope"></i>
+                        Messages
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Enhanced Header -->
+        <header class="header">
+            <h1>Welcome back, <span th:text="${user.username}">Rakib</span>! 👋</h1>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search transactions...">
+            </div>
+        </header>
+
+        <!-- Enhanced Balance Section -->
+        <section class="balance-card">
+            <div class="balance-info">
+                <h3>Total Balance</h3>
+                <div class="balance-amount" th:text="${user.balance}">$20,340.98</div>
+            </div>
+            <div class="balance-info">
+                <h3>Account Holder</h3>
+                <div th:text="${user.name}">Rakib Kowshar</div>
+            </div>
+            <div class="balance-info">
+                <h3>Monthly Income</h3>
+                <div class="balance-amount" style="color: var(--success)">+$5,240.50</div>
+            </div>
+            <div class="balance-info">
+                <h3>Monthly Expenses</h3>
+                <div class="balance-amount" style="color: var(--danger)">-$3,120.75</div>
+            </div>
+        </section>
+
+        <!-- Enhanced Quick Actions -->
+        <section class="quick-actions">
+            <div class="quick-action">
+                <i class="fas fa-paper-plane"></i>
+                <h3>Send Money</h3>
+            </div>
+            <div class="quick-action">
+                <i class="fas fa-download"></i>
+                <h3>Receive</h3>
+            </div>
+            <div class="quick-action">
+                <i class="fas fa-file-invoice"></i>
+                <h3>Pay Bills</h3>
+            </div>
+            <div class="quick-action">
+                <i class="fas fa-plus-circle"></i>
+                <h3>Top Up</h3>
+            </div>
+            <div class="quick-action">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Grocery</h3>
+            </div>
+        </section>
+
+        <!-- Enhanced Statistics -->
+        <section class="statistics-card">
+            <div class="statistics-header">
+                <h2>Statistics</h2>
+                <div class="stat-buttons">
+                    <button class="quick-action">Monthly</button>
+                    <button class="quick-action">Yearly</button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <!-- Placeholder for chart -->
+            </div>
+        </section>
+
+        <!-- Enhanced Transactions -->
+        <section class="transactions-card">
+            <div class="transactions-header">
+                <h2>Recent Transactions</h2>
+                <a href="#" style="color: var(--primary)">View All</a>
+            </div>
+            <table class="transaction-table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="transaction : ${transactions}">
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-building"></i>
+                            <span th:text="${transaction.name}">Github Brand</span>
+                        </div>
+                    </td>
+                    <td th:text="${transaction.id}">#ID2346780</td>
+                    <td th:text="${transaction.date}">9 June, 2022</td>
+                    <td th:text="${transaction.amount}"
+                        th:classappend="${transaction.type == 'credit' ? 'credit' : 'debit'}">
+                        - $168.99
+                    </td>
+                    <td>
+                                <span class="status" th:text="${transaction.status}"
+                                      th:classappend="${transaction.status == 'Completed' ? 'credit' : 'debit'}">
+                                    Completed
+                                </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+    });
+
+    // Close sidebar when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+            sidebar.classList.remove('active');
+        }
+    });
+</script>
 </body>
 </html>

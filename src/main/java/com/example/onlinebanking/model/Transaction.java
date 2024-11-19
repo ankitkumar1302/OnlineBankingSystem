@@ -18,7 +18,6 @@ public class Transaction {
     private LocalDateTime date;
 
     @ManyToOne
-    private Account account;
-
+    @JoinColumn(name = "user_id")
+    private User user;
 }
-
