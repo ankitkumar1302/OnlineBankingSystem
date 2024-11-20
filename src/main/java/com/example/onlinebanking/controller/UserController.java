@@ -22,14 +22,14 @@ public class UserController {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
 
-        // Use for password encryption
+        // Use for password
     }
 
     // Display registration page
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
-        return "register"; // Renders register.html
+        return "register";
     }
 
     // Handle registration form submission
