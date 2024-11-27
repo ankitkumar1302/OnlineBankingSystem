@@ -12,8 +12,8 @@ This is a simple **Online Banking System** built using **Spring Boot**. The proj
 ## Tech Stack
 
 - **Backend**: Spring Boot
-- **Database**: MySQL/PostgreSQL (mention the one you used)
-- **Build Tool**: Maven/Gradle
+- **Database**: MySQL 
+- **Build Tool**: Gradle
 - **Language**: Java
 
 ## How to Run the Project
